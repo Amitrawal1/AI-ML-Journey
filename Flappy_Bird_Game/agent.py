@@ -50,6 +50,13 @@ class Agent:
             memory = ReplayMemory(self.replay_memory_size)
             epsilon = self.epsilon_init
             
+            target_dqn = DQN(num_state, num_action).to(device)
+            target_dqn.load_state_dict(policy_dqn.state_dict())
+            
+            steps = 0
+            
+            self.optimizer = optim.Adam(policy_dqn.parameters(), lr=self.alpha)
+            
             
         for episode in itertools.count():
             state, _ = env.reset()
@@ -73,11 +80,22 @@ class Agent:
             
                 if is_training:
                     memory.append(state, action, new_state, reward, terminated)
+                    steps += 1
                     
                 state = next_state
                 episode_reward += reward   
             
             print(f"episode = {episode+1}  with total reward = {episode_reward} & epsilon = {epsilon}")
             
-            # Epsilon Decay
-            epsilon = max(epsilon*self.epsilon_decay, self.epsilon_min)
+            if is_training:
+                # Epsilon Decay
+                epsilon = max(epsilon*self.epsilon_decay, self.epsilon_min)
+                
+            if is_training and len(memory) > self.mini_batch_size:
+                mini_batch = memory.sample(self.mini_batch_size)
+                
+                optimize(mini_batch, policy_dqn, target_dqn)
+                
+                if steps > self.network_sync_rate:
+                    target_dqn.load_state_dict(policy_dqn.state_dict())
+                    step = 0
