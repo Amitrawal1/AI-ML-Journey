@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Summarizer — T5 Transformer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fbf1e6;
+    --peach:#f6d9bb;
+    --card:#fffaf3;
+    --ink:#221812;
+    --orange:#ea6a2e;
+    --orange-deep:#c14e1e;
+    --orange-soft:#f4a05c;
+    --text:#2b2018;
+    --text-muted:#8a7a6a;
+    --line:#ecdcc8;
+    --radius:22px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 560px at 85% -12%, rgba(234,106,46,0.22), transparent 60%),
+      radial-gradient(900px 480px at 5% 10%, rgba(246,217,187,0.65), transparent 55%),
+      var(--cream);
+    color:var(--text);
+    font-family:"Inter", sans-serif;
+    line-height:1.5;
+    min-height:100vh;
+  }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:64px 28px 80px;
+  }
+
+  /* ---------- Hero ---------- */
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--orange-deep);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--orange);
+    box-shadow:0 0 0 3px rgba(234,106,46,0.18);
+  }
+
+  h1{
+    font-family:"Sora", sans-serif;
+    font-weight:700;
+    font-size:clamp(2.5rem, 5vw, 3.8rem);
+    line-height:1.04;
+    letter-spacing:-0.02em;
+    margin:0 0 18px;
+    max-width:15ch;
+  }
+  h1 em{
+    font-style:normal;
+    font-weight:800;
+    color:var(--orange);
+  }
+
+  .sub{
+    color:var(--text-muted);
+    font-size:1.05rem;
+    max-width:52ch;
+    margin:0 0 48px;
+  }
+
+  /* ---------- Bench layout ---------- */
+  .bench{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:0;
+    align-items:stretch;
+  }
+
+  .panel{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 26px 22px;
+    display:flex;
+    flex-direction:column;
+    min-height:360px;
+    box-shadow:0 8px 24px rgba(193,78,30,0.05);
+  }
+
+  .panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:14px;
+  }
+
+  .panel-label{
+    font-family:"Sora", sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .panel.source .panel-label{color:var(--orange-deep);}
+  .panel.result .panel-label{color:var(--orange-deep);}
+
+  .count{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11px;
+    color:var(--text-muted);
+  }
+
+  textarea{
+    flex:1;
+    resize:none;
+    width:100%;
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:16px;
+    color:var(--text);
+    font-family:"Inter", sans-serif;
+    font-size:0.98rem;
+    line-height:1.6;
+    padding:16px;
+    min-height:260px;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  textarea::placeholder{color:#b3a290;}
+  textarea:focus{
+    border-color:var(--orange-soft);
+    box-shadow:0 0 0 3px rgba(234,106,46,0.14);
+  }
+
+  .result-body{
+    flex:1;
+    background:linear-gradient(160deg, var(--orange-soft), var(--orange));
+    color:#2a1206;
+    border-radius:16px;
+    padding:20px;
+    font-family:"Sora", sans-serif;
+    font-weight:500;
+    font-size:1.05rem;
+    line-height:1.6;
+    min-height:260px;
+    overflow-y:auto;
+  }
+  .result-body:empty::before{
+    content:"Your distilled summary will appear here.";
+    font-family:"Inter", sans-serif;
+    font-weight:400;
+    font-size:0.92rem;
+    color:rgba(42,18,6,0.55);
+  }
+
+  .actions-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:14px;
+  }
+
+  .copy-btn{
+    background:var(--ink);
+    border:1px solid var(--ink);
+    color:#f4e6d8;
+    font-family:"Sora", sans-serif;
+    font-weight:600;
+    font-size:11.5px;
+    letter-spacing:0.03em;
+    padding:9px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .copy-btn:hover{background:var(--orange-deep); border-color:var(--orange-deep); transform:translateY(-1px);}
+
+  /* ---------- Distill valve (center column) ---------- */
+  .valve-col{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:0 26px;
+    gap:18px;
+  }
+
+  .valve-line{
+    width:1px;
+    flex:1;
+    background:linear-gradient(var(--line), var(--line));
+    min-height:40px;
+  }
+
+  .distill-btn{
+    position:relative;
+    width:108px;
+    height:108px;
+    border-radius:50%;
+    background:linear-gradient(160deg, var(--orange-soft), var(--orange-deep));
+    border:none;
+    color:#2a1206;
+    font-family:"Sora", sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.02em;
+    cursor:pointer;
+    box-shadow:0 0 0 6px rgba(234,106,46,0.10), 0 12px 26px rgba(193,78,30,0.35);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .distill-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 0 8px rgba(234,106,46,0.16), 0 16px 30px rgba(193,78,30,0.4);
+  }
+  .distill-btn:active{transform:translateY(0);}
+  .distill-btn:disabled{opacity:0.65; cursor:progress;}
+
+  .distill-btn .arrow{
+    display:block;
+    font-size:20px;
+    margin-bottom:2px;
+  }
+
+  /* ---------- Compression gauge ---------- */
+  .gauge{
+    margin-top:38px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 26px;
+    display:flex;
+    align-items:center;
+    gap:22px;
+    box-shadow:0 8px 24px rgba(193,78,30,0.05);
+  }
+  .gauge-label{
+    font-family:"Sora", sans-serif;
+    font-weight:600;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    white-space:nowrap;
+  }
+  .gauge-track{
+    flex:1;
+    height:8px;
+    border-radius:999px;
+    background:var(--peach);
+    overflow:hidden;
+    position:relative;
+  }
+  .gauge-fill{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(90deg, var(--orange-soft), var(--orange-deep));
+    transition:width .6s ease;
+  }
+  .gauge-value{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:13px;
+    color:var(--orange-deep);
+    min-width:52px;
+    text-align:right;
+  }
+
+  /* ---------- Footer note ---------- */
+  .footnote{
+    margin-top:28px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    color:var(--text-muted);
+    letter-spacing:0.02em;
+  }
+  .footnote span{color:var(--orange-deep); font-weight:500;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .bench{grid-template-columns:1fr;}
+    .valve-col{flex-direction:row; padding:18px 0;}
+    .valve-line{width:auto; height:1px; flex:1; min-width:20px;}
+  }
+
+  /* ---------- Focus visibility ---------- */
+  button:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--orange);
+    outline-offset:2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">T5-Base · HuggingFace Transformers</div>
+  <h1>Distill your text down to <em>what matters.</em></h1>
+  <p class="sub">Paste an article, report, or wall of text. The model reads it in full and hands back the essence — same meaning, a fraction of the words.</p>
+
+  <form id="summarizeForm" method="POST" action="/">
+    <div class="bench">
+
+      <div class="panel source">
+        <div class="panel-head">
+          <span class="panel-label">Source</span>
+          <span class="count" id="sourceCount">0 words</span>
+        </div>
+        <textarea id="sourceText" name="text" placeholder="Write or paste your content here…"></textarea>
+      </div>
+
+      <div class="valve-col">
+        <div class="valve-line"></div>
+        <button type="submit" class="distill-btn" id="distillBtn">
+          <span class="arrow">⟶</span>Distill
+        </button>
+        <div class="valve-line"></div>
+      </div>
+
+      <div class="panel result">
+        <div class="panel-head">
+          <span class="panel-label">Distillate</span>
+          <span class="count" id="resultCount">0 words</span>
+        </div>
+        <div class="result-body" id="resultBody">{{ summary if summary }}</div>
+        <div class="actions-row">
+          <button type="button" class="copy-btn" id="copyBtn">Copy summary</button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+  <div class="gauge">
+    <span class="gauge-label">Compression</span>
+    <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
+    <span class="gauge-value" id="gaugeValue">—</span>
+  </div>
+
+  <p class="footnote">Model runs locally via <span>app.py</span> · no text is stored after summarizing.</p>
+
+</div>
+
+<script>
+  const sourceText = document.getElementById('sourceText');
+  const sourceCount = document.getElementById('sourceCount');
+  const resultBody = document.getElementById('resultBody');
+  const resultCount = document.getElementById('resultCount');
+  const gaugeFill = document.getElementById('gaugeFill');
+  const gaugeValue = document.getElementById('gaugeValue');
+  const distillBtn = document.getElementById('distillBtn');
+  const form = document.getElementById('summarizeForm');
+  const copyBtn = document.getElementById('copyBtn');
+
+  function wordCount(str){
+    const t = str.trim();
+    return t.length ? t.split(/\s+/).length : 0;
+  }
+
+  function updateGauge(){
+    const src = wordCount(sourceText.value);
+    const out = wordCount(resultBody.textContent);
+    sourceCount.textContent = src + (src === 1 ? ' word' : ' words');
+    resultCount.textContent = out + (out === 1 ? ' word' : ' words');
+
+    if(src > 0 && out > 0){
+      const pct = Math.max(0, Math.min(100, 100 - Math.round((out / src) * 100)));
+      gaugeFill.style.width = pct + '%';
+      gaugeValue.textContent = pct + '%';
+    } else {
+      gaugeFill.style.width = '0%';
+      gaugeValue.textContent = '—';
+    }
+  }
+
+  sourceText.addEventListener('input', updateGauge);
+  updateGauge();
+
+  form.addEventListener('submit', function(){
+    distillBtn.disabled = true;
+    distillBtn.innerHTML = '<span class="arrow">⋯</span>Working';
+  });
+
+  copyBtn.addEventListener('click', function(){
+    const text = resultBody.textContent.trim();
+    if(!text) return;
+    navigator.clipboard.writeText(text).then(function(){
+      const original = copyBtn.textContent;
+      copyBtn.textContent = 'Copied';
+      setTimeout(function(){ copyBtn.textContent = original; }, 1400);
+    });
+  });
+</script>
+</body>
+</html>
