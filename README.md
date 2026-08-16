@@ -2,14 +2,14 @@
 
 Welcome to my **AI/ML Journey** repository.
 
-This repository documents my hands-on learning in **Artificial Intelligence, Machine Learning, Deep Learning, Computer Vision, Reinforcement Learning, and MLOps** through real-world projects.
+This repository documents my hands-on learning and development in **Artificial Intelligence, Machine Learning, Deep Learning, Computer Vision, Reinforcement Learning, Natural Language Processing, Generative AI, and RAG systems** through practical projects.
 
 The goal is simple:
 
 - 📚 Learn by building
-- 🧠 Understand concepts from scratch
-- 🚀 Build production-ready AI projects
-- 🌍 Keep everything open source for the community
+- 🧠 Understand concepts through implementation
+- 🚀 Build practical and production-oriented AI projects
+- 🌍 Keep projects open source for the community
 
 Anyone is free to use, learn from, or improve these projects.
 
@@ -19,24 +19,47 @@ Anyone is free to use, learn from, or improve these projects.
 
 | Project | Description | Technologies |
 |----------|-------------|--------------|
-| 🔗 **[Flappy Bird AI](./Flappy_Bird_Game)** | Deep Reinforcement Learning agent that learns to play Flappy Bird using Deep Q-Network (DQN). | Python, PyTorch, Gymnasium, DQN |
-| 🔗 **[Optimal Crops Predicting](./Optimal_Crops_Predicting)** | Machine Learning model for crop recommendation based on soil and environmental conditions. | Python, Scikit-Learn, Pandas |
-| 🔗 **[Power Plant Prediction](./power-plant-prediction)** | Predicts power plant energy output using supervised machine learning techniques. | Python, Scikit-Learn |
-| 🔗 **[CNN CIFAR-10](./CNN_CIFAR10)** | Image classification on the CIFAR-10 dataset using Convolutional Neural Networks. | PyTorch, CNN, Deep Learning |
+| 🔗 **[Flappy Bird AI](./Flappy_Bird_Game)** | Deep Reinforcement Learning agent that learns to play Flappy Bird autonomously using a Deep Q-Network (DQN). | Python, PyTorch, Gymnasium, DQN |
+| 🔗 **[Optimal Crops Predicting](./Optimal_Crops_Predicting)** | Machine Learning model that recommends suitable crops based on soil and environmental conditions. | Python, Scikit-Learn, Pandas |
+| 🔗 **[Power Plant Prediction](./power-plant-prediction)** | Machine Learning model that predicts power plant energy output using supervised regression techniques. | Python, Scikit-Learn, Pandas |
+| 🔗 **[CNN CIFAR-10](./CNN_CIFAR10)** | Image classification system trained on the CIFAR-10 dataset using Convolutional Neural Networks. | Python, PyTorch, CNN, Deep Learning |
+| 🔗 **[Text Summarizer](./Text_summarizer)** | NLP-based text summarization system that fine-tunes a T5 Transformer on the SAMSum dataset to generate concise conversational summaries. | Python, Hugging Face Transformers, NLP, T5 |
+| 🔗 **[ChallanSaathi](./ChallanSaathi)** | Hybrid RAG-based Indian Motor Vehicle Law Assistant that retrieves relevant provisions and generates grounded answers with rule/section references and source citations. | Python, RAG, BM25, Vector Search, Llama 3.1, Ollama |
 
 ---
 
 ## 🛠 Tech Stack
 
+### Programming & Data
 - Python
 - NumPy
 - Pandas
 - Matplotlib
 - Scikit-Learn
+
+### Machine Learning & Deep Learning
+- Machine Learning
 - PyTorch
+- Deep Learning
+- CNN
+- Reinforcement Learning
+- DQN
 - Gymnasium
-- OpenCV
+
+### NLP & Generative AI
+- Natural Language Processing
+- Hugging Face Transformers
+- T5
+- RAG
+- Semantic Vector Search
+- BM25
+- Llama 3.1
+- Ollama
+
+### Development Tools
 - Jupyter Notebook
+- Git & GitHub
+- OpenCV
 
 ---
 
@@ -46,21 +69,25 @@ Anyone is free to use, learn from, or improve these projects.
 - ✅ Deep Learning
 - ✅ Computer Vision
 - ✅ Reinforcement Learning
-- 🔄 Natural Language Processing (Coming Soon)
-- 🔄 Large Language Models (Coming Soon)
-- 🔄 Transformers (Coming Soon)
-- 🔄 MLOps (Coming Soon)
-- 🔄 AI Agents (Coming Soon)
+- ✅ Natural Language Processing
+- ✅ Transformers
+- ✅ Generative AI
+- ✅ Retrieval-Augmented Generation (RAG)
+- 🔄 Large Language Models
+- 🔄 AI Agents
+- 🔄 MLOps
 
 ---
 
 ## 🎯 Repository Goals
 
-- Build real-world AI projects
-- Keep code clean and beginner-friendly
-- Explain implementations from scratch
+- Build real-world AI/ML projects
+- Implement concepts through hands-on development
+- Keep code clean and understandable
+- Explore modern AI technologies
 - Continuously improve project quality
-- Share everything as open source
+- Document the learning process
+- Share projects openly with the community
 
 ---
 
@@ -89,4 +116,4 @@ It motivates me to continue building and sharing more projects.
 
 **Amit Rawal**
 
-Learning AI one project at a time 🚀
+Building and learning AI one project at a time 🚀
