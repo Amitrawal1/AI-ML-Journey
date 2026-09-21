@@ -1,0 +1,210 @@
+{
+  "pixels_per_metre": 24.891457557496874,
+  "geometry": {
+    "units": "metres",
+    "frame": "origin at nozzle exit centre, +y along the rocket axis toward the nose",
+    "total_length": 44.0,
+    "body_diameter": 3.7,
+    "center_of_mass": [
+      0.0,
+      14.0
+    ],
+    "engine_count": 9,
+    "nozzle_throat_y": 2.2,
+    "leg_hinge_y": 3.0,
+    "leg_length": 9.5,
+    "leg_deployed_angle_deg": 118.0,
+    "foot_pad_y_deployed": -1.4599798464659637,
+    "grid_fin_hinge_y": 37.2,
+    "grid_fin_span": 1.6,
+    "max_gimbal_deg": 8.0
+  },
+  "components": {
+    "body": {
+      "file": "body.png",
+      "size_px": [
+        107,
+        1048
+      ],
+      "pivot_px": [
+        53.52,
+        1096.47
+      ],
+      "pivot_note": "pivot = body-frame origin (nozzle exit centre)"
+    },
+    "nozzle": {
+      "file": "nozzle.png",
+      "size_px": [
+        26,
+        66
+      ],
+      "pivot_px": [
+        12.94,
+        11.2
+      ]
+    },
+    "nozzle_cluster": {
+      "file": "nozzle_cluster.png",
+      "size_px": [
+        129,
+        87
+      ],
+      "pivot_px": [
+        64.72,
+        69.7
+      ]
+    },
+    "landing_leg": {
+      "file": "landing_leg.png",
+      "size_px": [
+        65,
+        281
+      ],
+      "pivot_px": [
+        32.36,
+        263.85
+      ]
+    },
+    "foot_pad": {
+      "file": "foot_pad.png",
+      "size_px": [
+        40,
+        9
+      ],
+      "pivot_px": [
+        19.91,
+        1.24
+      ]
+    },
+    "strut_sleeve": {
+      "file": "strut_sleeve.png",
+      "size_px": [
+        15,
+        109
+      ],
+      "pivot_px": [
+        7.47,
+        104.54
+      ]
+    },
+    "strut_rod": {
+      "file": "strut_rod.png",
+      "size_px": [
+        10,
+        124
+      ],
+      "pivot_px": [
+        4.98,
+        121.97
+      ]
+    },
+    "grid_fin_edge_on": {
+      "file": "grid_fin_edge_on.png",
+      "size_px": [
+        15,
+        53
+      ],
+      "pivot_px": [
+        7.47,
+        51.03
+      ]
+    },
+    "grid_fin_twisted_20deg": {
+      "file": "grid_fin_twisted_20deg.png",
+      "size_px": [
+        25,
+        53
+      ],
+      "pivot_px": [
+        12.7,
+        51.03
+      ]
+    },
+    "grid_fin_front_stowed": {
+      "file": "grid_fin_front_stowed.png",
+      "size_px": [
+        37,
+        53
+      ],
+      "pivot_px": [
+        18.67,
+        51.03
+      ]
+    },
+    "assembled_ascent": {
+      "file": "assembled_ascent.png",
+      "size_px": [
+        125,
+        1097
+      ],
+      "pivot_px": [
+        62.14,
+        748.64
+      ],
+      "pivot_note": "centre of mass"
+    },
+    "assembled_descent": {
+      "file": "assembled_descent.png",
+      "size_px": [
+        189,
+        1097
+      ],
+      "pivot_px": [
+        94.14,
+        748.64
+      ],
+      "pivot_note": "centre of mass"
+    },
+    "assembled_landing": {
+      "file": "assembled_landing.png",
+      "size_px": [
+        559,
+        1142
+      ],
+      "pivot_px": [
+        279.14,
+        748.64
+      ],
+      "pivot_note": "centre of mass"
+    },
+    "plume_sea_level_9eng": {
+      "file": "plume_sea_level_9eng.png",
+      "size_px": [
+        175,
+        373
+      ],
+      "pivot_px": [
+        87.61,
+        5.97
+      ],
+      "pixels_per_metre": 14.934874534498125,
+      "pivot_note": "nozzle exit centre, flow toward +y (down)"
+    },
+    "plume_sea_level_1eng": {
+      "file": "plume_sea_level_1eng.png",
+      "size_px": [
+        137,
+        373
+      ],
+      "pivot_px": [
+        68.94,
+        5.97
+      ],
+      "pixels_per_metre": 14.934874534498125,
+      "pivot_note": "nozzle exit centre, flow toward +y (down)"
+    },
+    "plume_vacuum_9eng": {
+      "file": "plume_vacuum_9eng.png",
+      "size_px": [
+        1308,
+        695
+      ],
+      "pivot_px": [
+        654.35,
+        5.97
+      ],
+      "pixels_per_metre": 14.934874534498125,
+      "pivot_note": "nozzle exit centre, flow toward +y (down)"
+    }
+  }
+}
